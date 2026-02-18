@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Marketplace</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f2f2f2;}
+header{background:#ffcc00;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;}
+.logo{font-size:24px;font-weight:bold;}
+.container{padding:40px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.card{background:white;border-radius:8px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;}
+.card:hover{transform:scale(1.03);}
+.card img{width:100%;height:180px;object-fit:cover;}
+.card-body{padding:15px;}
+.price{color:#d40000;font-weight:bold;margin-top:8px;}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">CarMarket</div>
+</header>
+
+<div class="container">
+<div class="grid">
+
+<!-- ===== CAR ADVERT 1 ===== -->
+<div class="card" onclick="location.href='araba1.html'">
+    <img src="car1.jpg">
+    <div class="card-body">
+        <h3>BMW 3 Series</h3>
+        <div class="price">£25,000</div>
+    </div>
+</div>
+
+<!-- ===== CAR ADVERT 2 ===== -->
+<div class="card" onclick="location.href='car.html'">
+    <!-- 🔥 CHANGE IMAGE HERE -->
+    <img src="car2.jpg">
+    <div class="card-body">
+        <h3>Audi A4</h3>
+        <div class="price">£23,500</div>
+    </div>
+</div>
+
+<!-- ===== CAR ADVERT 3 ===== -->
+<div class="card" onclick="location.href='car.html'">
+    <!-- 🔥 CHANGE IMAGE HERE -->
+    <img src="car3.jpg">
+    <div class="card-body">
+        <h3>Mercedes C Class</h3>
+        <div class="price">£27,800</div>
+    </div>
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
