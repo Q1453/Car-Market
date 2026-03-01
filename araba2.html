@@ -32,9 +32,16 @@ margin:auto;
 
 .gallery img{
 width:100%;
-height:380px; /* 🔥 REDUCED FROM 450px */
-object-fit:cover;
+height:380px;
+object-fit:contain; /* changed from cover */
+background:#000;    /* prevents ugly empty space */
 border-radius:8px;
+opacity:0;
+transition:opacity 0.4s ease-in-out;
+}
+
+.gallery img.active {
+opacity:1;
 }
 
 .arrow{
@@ -52,7 +59,18 @@ user-select:none;
 .left{left:10px;}
 .right{right:10px;}
 
-/* 🔥 NEW SCROLL INDICATOR */
+.image-counter{
+position:absolute;
+bottom:15px;
+right:15px;
+background:rgba(0,0,0,0.6);
+color:white;
+padding:6px 10px;
+border-radius:20px;
+font-size:14px;
+}
+
+/* Scroll indicator */
 .scroll-indicator{
 text-align:center;
 margin-top:15px;
@@ -84,20 +102,17 @@ margin-right:auto;
 <button class="home-btn" onclick="location.href='index.html'">Home</button>
 </div>
 
-<!-- ================= IMAGE GALLERY ================= -->
 <div class="gallery">
     <span class="arrow left" onclick="prevImage()">❮</span>
-    <img id="carImage" src="car1.jpg">
+    <img id="carImage" src="" alt="Car Image">
     <span class="arrow right" onclick="nextImage()">❯</span>
+    <div class="image-counter" id="imageCounter"></div>
 </div>
 
-<!-- 🔥 NEW: CLEAR INDICATION MORE CONTENT EXISTS -->
 <div class="scroll-indicator">
 ▼ View Details Below ▼
 </div>
 
-<!-- ================= SUMMARY SECTION ================= -->
-<!-- 🔥 THIS IS THE SUMMARY SECTION -->
 <div class="section">
 <h2>Summary</h2>
 <p>
@@ -105,50 +120,85 @@ desc
 </p>
 </div>
 
-<!-- ================= DETAILS SECTION ================= -->
-<!-- 🔥 THIS IS THE DETAILS SECTION -->
 <div class="section">
 <h2>Details</h2>
 <ul>
-<li>Year: 2013</li>
-<li>Mileage: 117,000 miles</li>
+<li>Year: 2012</li>
+<li>Mileage: 110,000 miles</li>
 <li>Transmission: Automatic</li>
 <li>Fuel Type: Petrol</li>
-<li>Engine: 2.4L Turbo</li>
+<li>Engine: 3.0L N52</li>
 <li>Doors: 4</li>
-<li>Colour: Grey</li>
+<li>Colour: Sparkling Metallic Bronze</li>
+<li>Notes: Left front fender and sunroof were locally painted</li>
+</ul>
 </ul>
 </div>
 
 <script>
 const images = [
-"f370111c-7b79-459e-a052-efdd0e742b91.jpg",
-"dcd503a1-1098-4146-a002-08cf887fd38c.jpg",
-"d0a24696-263e-44e8-b486-3d6a02209d48.jpg",
-"ba2f02ea-d075-48a5-b513-bb36cf990ca3.jpg",
-"b09a3ee9-fb10-4ce7-ac7f-90364fdf2bce.jpg",
-"97f0b753-4d25-43d4-b32b-e56c0ed8aec1.jpg",
-"21b64d16-6c64-47e8-8106-b01d1dcbe06a.jpg",
+"front.jpeg",
+"side1.jpeg",
+"side2.jpeg",
+"inside.jpeg",
+"engine.jpeg"
 ];
 
 let current = 0;
+const imgElement = document.getElementById("carImage");
+const counter = document.getElementById("imageCounter");
 
-function showImage(){
-document.getElementById("carImage").src = images[current];
+function preloadImages() {
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
 }
 
-function nextImage(){
-current = (current + 1) % images.length;
-showImage();
+function showImage() {
+    imgElement.classList.remove("active");
+
+    setTimeout(() => {
+        imgElement.src = images[current];
+        counter.textContent = `${current + 1} / ${images.length}`;
+        imgElement.classList.add("active");
+    }, 150);
 }
 
-function prevImage(){
-current = (current - 1 + images.length) % images.length;
-showImage();
+function nextImage() {
+    current = (current + 1) % images.length;
+    showImage();
 }
+
+function prevImage() {
+    current = (current - 1 + images.length) % images.length;
+    showImage();
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+});
+
+let startX = 0;
+
+imgElement.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+});
+
+imgElement.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    if (diff > 50) nextImage();
+    if (diff < -50) prevImage();
+});
+
+window.addEventListener("load", () => {
+    preloadImages();
+    showImage();
+});
 </script>
 
 </body>
 </html>
-
-
