@@ -191,8 +191,8 @@ imgElement.addEventListener("touchend", (e) => {
     let endX = e.changedTouches[0].clientX;
     let diff = startX - endX;
 
-    if (diff > 50) nextImage();
-    if (diff < -50) prevImage();
+    if (diff > 60) nextImage();
+    if (diff < -60) prevImage();
 });
 
 window.addEventListener("load", () => {
